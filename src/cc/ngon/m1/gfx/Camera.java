@@ -67,18 +67,13 @@ public class Camera {
         return this;
     }
     
-    public Camera renderMap(Entity[] objs) {
+    public Camera renderMap(Map m) {
         glTranslatef(position.x, position.y, 0);
         glClear(GL_COLOR_BUFFER_BIT);
-        for (Entity e : objs) {
-            e.sprite.texture().bind();
-            glBegin(GL_QUADS);
-                for (int i = 0; i < 4; ++i) {
-                    glTexCoord2f(e.sprite.t[i].x, e.sprite.t[i].y);
-                    glVertex2f(e.sprite.v[i].x, e.sprite.v[i].y);
-                }
-            glEnd();
-        }
+        m.bg.render();
+        m.mg.render();
+        m.fg.render();
+        m.display.render();
         return this;
     }
     

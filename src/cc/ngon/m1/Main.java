@@ -35,7 +35,7 @@ public class Main {
     
     public void execute() {
         
-        Map m = new Map(Resources.getMap("tiledmap0"));
+        Map m = new Map(Resources.getMap("tiledmap0")).initialize();
         
         while (!Display.isCloseRequested()) {
             m.update();

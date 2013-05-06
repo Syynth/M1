@@ -15,19 +15,25 @@ public class Map {
     public Map(int width, int height) {
         this.width = width;
         this.height = height;
+        bg = new Layer(this);
+        mg = new Layer(this);
+        fg = new Layer(this);
+        display = new Layer(this);
     }
     
-    public void initialize() {
+    public Map initialize() {
         camera = new Camera();
         camera.initGL();
+        return this;
     }
 
-    public void update() {
-        
+    public Map update() {
+        return this;
     }
 
-    public void render() {
-        camera.renderMap(entityCache);
+    public Map render() {
+        camera.renderMap(this);
+        return this;
     }
 
     public int width() {
@@ -38,9 +44,13 @@ public class Map {
         return height;
     }
     
+    public Layer bg;
+    public Layer mg;
+    public Layer fg;
+    public Layer display;
+    
     protected int width;
     protected int height;
     protected Camera camera;
-    protected Entity[] entityCache;
     
 }
