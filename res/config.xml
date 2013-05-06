@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config version="1.0">
+	<propertyGroup name="global">
+	</propertyGroup>
+	<propertyGroup name="prefs">
+		<property name="fullscreen">false</property>
+		<property name="scrWidth">640</property>
+		<property name="scrHeight">480</property>
+		<property name="fps">60</property>
+	</propertyGroup>
+</config>
