@@ -2,8 +2,9 @@
  * @date Apr 29, 2013
  * @author Ben Cochrane
  */
-package cc.ngon.m1;
+package cc.ngon.engine;
 
+import cc.ngon.engine.Entity;
 import org.lwjgl.util.vector.Vector2f;
 
 public class Tile extends Entity {

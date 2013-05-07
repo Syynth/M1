@@ -2,8 +2,10 @@
  * @date May 6, 2013
  * @author Ben Cochrane
  */
-package cc.ngon.m1;
+package cc.ngon.engine;
 
+import cc.ngon.engine.Tile;
+import cc.ngon.engine.Entity;
 import org.lwjgl.util.vector.Vector2f;
 
 

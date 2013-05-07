@@ -4,6 +4,7 @@
  */
 package cc.ngon.m1;
 
+import cc.ngon.engine.Map;
 import cc.ngon.io.Config;
 import java.io.File;
 import java.util.logging.Level;

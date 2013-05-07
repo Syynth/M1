@@ -4,6 +4,7 @@
  */
 package cc.ngon.m1;
 
+import cc.ngon.engine.Map;
 import cc.ngon.io.L;
 import cc.ngon.gfx.Tileset;
 

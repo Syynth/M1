@@ -2,8 +2,9 @@
  * @date Apr 29, 2013
  * @author Ben Cochrane
  */
-package cc.ngon.m1;
+package cc.ngon.engine;
 
+import cc.ngon.engine.Layer;
 import cc.ngon.gfx.Camera;
 
 public class Map {
