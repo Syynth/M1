@@ -11,4 +11,10 @@ public class Tile extends Entity {
     public Tile(Map m, Vector2f position) {
         super(m, position);
     }
+    
+    @Override
+    public Object clone() {
+        Tile t = (Tile)super.clone();
+        return t;
+    }
 }

@@ -4,8 +4,6 @@
  */
 package cc.ngon.m1;
 
-import cc.ngon.L;
-import cc.ngon.m1.gfx.Graphic;
 import org.lwjgl.util.vector.Vector2f;
 
 
@@ -30,8 +28,15 @@ public class TileMap extends Entity {
     @Override
     public Object clone() {
         TileMap e = (TileMap)super.clone();
-        // TODO: Finish all deep copies
-        return null;
+        e.width = width;
+        e.height = height;
+        e.tiles = new Tile[width][height];
+        for (int i = 0; i < width; ++i) {
+            for (int j = 0; j < height; ++j) {
+                e.tiles[i][j] = (Tile)tiles[i][j].clone();
+            }
+        }
+        return e;
     }
     
     public Tile[][] tiles;

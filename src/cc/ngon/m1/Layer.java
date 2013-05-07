@@ -37,6 +37,11 @@ public class Layer {
         }
     }
     
+    @Override
+    public Object clone() {
+        return new Layer(this);
+    }
+    
     public Map m;
     
     public Entity backdrop;
