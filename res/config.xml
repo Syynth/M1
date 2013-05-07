@@ -8,4 +8,8 @@
 		<property name="scrHeight">480</property>
 		<property name="fps">60</property>
 	</propertyGroup>
+	<propertyGroup name="tileset0">
+		<property name="tilewidth">32</property>
+		<property name="tileheight">32</property>
+	</propertyGroup>
 </config>

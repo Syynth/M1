@@ -13,11 +13,11 @@ public abstract class ResourceTable {
         res = new HashMap<>();
     }
     
-    public Resource getResource(String key) {
+    public Resource get(String key) {
         return res.get(key);
     }
     
-    protected abstract void initializeResources();
+    public abstract void initializeResources();
     
     protected final ResourceTable addResource(String key, Resource value) {
         res.put(key, value);

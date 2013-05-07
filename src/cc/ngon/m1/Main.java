@@ -30,13 +30,14 @@ public class Main {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        Resources.loadAllFiles();
+        res = new R();
+        res.initializeResources();
         
     }
     
     public void execute() {
         
-        Map m = new Map(Resources.getMap("tiledmap0")).initialize();
+        Map m = new Map((Map)res.get("maps").get("tiledmap0")).initialize();
         
         while (!Display.isCloseRequested()) {
             m.update();
@@ -57,4 +58,6 @@ public class Main {
         Main app = new Main();
         app.execute();
     }
+    
+    private R res;
 }

@@ -18,6 +18,8 @@ public final class L {
     public static void p(char m) { System.out.println(m); }
     public static void p(Object m) { System.out.println(m); }
     
+    public static void ex(Exception e) { e.printStackTrace(); }
+    
     /*public static void v(int m) { System.out.println(m); }
     public static void v(double m) { System.out.println(m); }
     public static void v(float m) { System.out.println(m); }
