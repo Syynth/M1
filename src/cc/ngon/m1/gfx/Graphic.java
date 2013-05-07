@@ -15,12 +15,12 @@ import static org.lwjgl.opengl.GL11.*;
 public class Graphic {
     
     public Graphic(Graphic g) {
-        this(g.texture(), g.size());
+        this(g.texture());
     }
     
-    public Graphic(Texture tex, Vector2f size) {
+    public Graphic(Texture tex) {
         this.texture = tex;
-        this.size = new Vector2f(size);
+        this.size = new Vector2f(texture.getImageWidth(), texture.getImageHeight());
         v[0] = new Vector2f(0, 0);
         v[1] = new Vector2f(size.x, 0);
         v[2] = new Vector2f(size.x, size.y);
