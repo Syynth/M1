@@ -5,6 +5,7 @@
 package cc.ngon.m1;
 
 import cc.ngon.L;
+import cc.ngon.m1.gfx.Tileset;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public final class Resources {
         tw = Integer.parseInt(e.attributeValue("tilewidth"));
         th = Integer.parseInt(e.attributeValue("tileheight"));
         Map m = new Map(w, h);
-        
+        d.selectSingleNode("//map");
         return m;
     }
     
@@ -81,5 +82,6 @@ public final class Resources {
     
     private static HashMap<String, Texture> texs = new HashMap<>();
     private static HashMap<String, Map> maps = new HashMap<>();
+    private static HashMap<String, Tileset> tilesets = new HashMap<>();
     
 }

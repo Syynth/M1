@@ -307,7 +307,7 @@
    <tile gid="1"/>
   </data>
  </layer>
- <layer name="foreground" width="20" height="15">
+ <layer name="midground" width="20" height="15">
   <data>
    <tile gid="2"/>
    <tile gid="2"/>
@@ -611,4 +611,5 @@
    <tile gid="2"/>
   </data>
  </layer>
+ <objectgroup name="Object Layer 1" width="20" height="15"/>
 </map>
