@@ -4,9 +4,7 @@
  */
 package cc.ngon.engine;
 
-import cc.ngon.engine.Layer;
 import cc.ngon.gfx.Camera;
-import cc.ngon.io.L;
 
 public class Map {
 
@@ -19,7 +17,6 @@ public class Map {
             this.fg = new Layer(source.fg);
             this.display = new Layer(source.display);
         } else {
-            L.p("Bad map was passed into Map(Map source) constructor");
             throw new IllegalArgumentException("source paramter in cc.ngon.engine.Map(Map source) must not be null!");
         }
     }
