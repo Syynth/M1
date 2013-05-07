@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.net.MalformedURLException;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -61,7 +60,6 @@ public final class Resources {
     }
     
     private static Map loadMap(File f) throws IOException, DocumentException {
-        Map m = null;
         SAXReader reader = new SAXReader();
         Document d = reader.read(f.toURI().toURL());
         int w = 0, h = 0, tw = 0, th = 0;
@@ -70,7 +68,8 @@ public final class Resources {
         h = Integer.parseInt(e.attributeValue("height"));
         tw = Integer.parseInt(e.attributeValue("tilewidth"));
         th = Integer.parseInt(e.attributeValue("tileheight"));
-        m = new Map(w, h);
+        Map m = new Map(w, h);
+        
         return m;
     }
     

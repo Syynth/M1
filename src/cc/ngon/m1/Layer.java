@@ -13,6 +13,7 @@ public class Layer {
         this.m = m;
         this.objects = new ArrayList<>();
         this.fx = new ArrayList<>();
+        this.backdrop = null;
     }
     
     public Layer(Layer l) {
@@ -28,7 +29,9 @@ public class Layer {
     }
     
     public void render() {
-        backdrop.render();
+        if (backdrop != null) {
+            backdrop.render();
+        }
         for (Entity e : objects) {
             e.render();
         }

@@ -9,7 +9,12 @@ import cc.ngon.m1.gfx.Camera;
 public class Map {
 
     public Map(Map source) {
-        
+        this.width = source.width;
+        this.height = source.height;
+        this.bg = new Layer(source.bg);
+        this.mg = new Layer(source.mg);
+        this.fg = new Layer(source.fg);
+        this.display = new Layer(source.display);
     }
     
     public Map(int width, int height) {
