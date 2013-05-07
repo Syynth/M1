@@ -4,8 +4,8 @@
  */
 package cc.ngon.m1;
 
-import cc.ngon.L;
-import cc.ngon.m1.gfx.Tileset;
+import cc.ngon.io.L;
+import cc.ngon.gfx.Tileset;
 
 import java.io.*;
 import java.util.ArrayList;

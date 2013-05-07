@@ -2,7 +2,7 @@
  * @date Apr 30, 2013
  * @author Ben Cochrane
  */
-package cc.ngon;
+package cc.ngon.io;
 
 /**
  * A logging class with a short name for ease of use.

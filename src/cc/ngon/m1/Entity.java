@@ -4,8 +4,8 @@
  */
 package cc.ngon.m1;
 
-import cc.ngon.L;
-import cc.ngon.m1.gfx.Graphic;
+import cc.ngon.io.L;
+import cc.ngon.gfx.Graphic;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.util.vector.Vector2f;

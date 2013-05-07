@@ -1,4 +1,4 @@
-package cc.ngon.m1.io;
+package cc.ngon.io;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,11 +25,6 @@ public class Resource<R> {
                 map.put(f.getName().replaceAll(extension, ""), (R) loader.load(f));
             }
         }
-        return this;
-    }
-
-    public Resource<R> unload() {
-        this.map = new HashMap<>();
         return this;
     }
 

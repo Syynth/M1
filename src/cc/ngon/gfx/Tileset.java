@@ -2,7 +2,7 @@
  * @date May 7, 2013
  * @author Ben Cochrane
  */
-package cc.ngon.m1.gfx;
+package cc.ngon.gfx;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.opengl.Texture;

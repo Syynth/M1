@@ -4,7 +4,7 @@
  */
 package cc.ngon.m1;
 
-import cc.ngon.m1.gfx.Camera;
+import cc.ngon.gfx.Camera;
 
 public class Map {
 
@@ -37,7 +37,11 @@ public class Map {
     }
 
     public Map render() {
-        camera.renderMap(this);
+        camera.applyTransform();
+        bg.render();
+        mg.render();
+        fg.render();
+        display.render();
         return this;
     }
 

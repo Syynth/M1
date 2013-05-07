@@ -2,7 +2,7 @@
  * @date May 6, 2013
  * @author Ben Cochrane
  */
-package cc.ngon.m1.gfx;
+package cc.ngon.gfx;
 
 import cc.ngon.m1.Resources;
 

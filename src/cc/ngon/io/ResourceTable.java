@@ -1,5 +1,6 @@
-package cc.ngon.m1.io;
+package cc.ngon.io;
 
+import cc.ngon.io.Resource;
 import java.util.HashMap;
 
 /**
