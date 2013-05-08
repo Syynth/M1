@@ -6,28 +6,20 @@ package cc.ngon.engine;
 
 import cc.ngon.gfx.Camera;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+
 public class Map {
 
     public Map(Map source) {
-        if (source != null) {
-            this.width = source.width;
-            this.height = source.height;
-            this.bg = new Layer(source.bg);
-            this.mg = new Layer(source.mg);
-            this.fg = new Layer(source.fg);
-            this.display = new Layer(source.display);
-        } else {
-            throw new IllegalArgumentException("source paramter in cc.ngon.engine.Map(Map source) must not be null!");
-        }
+        this(source.width, source.height);
     }
     
     public Map(int width, int height) {
         this.width = width;
         this.height = height;
-        bg = new Layer(this);
-        mg = new Layer(this);
-        fg = new Layer(this);
-        display = new Layer(this);
+        layerCache = new Layer[0];
     }
     
     public Map initialize() {
@@ -42,11 +34,26 @@ public class Map {
 
     public Map render() {
         camera.applyTransform();
-        bg.render();
-        mg.render();
-        fg.render();
-        display.render();
+        for (Layer l : layerCache) {
+            l.render();
+        }
         return this;
+    }
+    
+    public Map addLayer(String name, Layer layer) {
+        layers.put(name, layer);
+        return this;
+    }
+    
+    public Layer getLayer(String name) {
+        return layers.get(name);
+    }
+    
+    private void buildLayerCache() {
+        layerCache = new Layer[layers.size()];
+        Collection c = layers.values();
+        layerCache = (Layer[])c.toArray();
+        Arrays.sort(layerCache, new Layer.LayerComparator());
     }
 
     public int width() {
@@ -57,10 +64,8 @@ public class Map {
         return height;
     }
     
-    public Layer bg;
-    public Layer mg;
-    public Layer fg;
-    public Layer display;
+    public HashMap<String, Layer> layers;
+    protected Layer[] layerCache;
     
     protected int width;
     protected int height;

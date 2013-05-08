@@ -5,17 +5,17 @@
 package cc.ngon.engine;
 
 import java.util.ArrayList;
-
+import java.util.Comparator;
 
 public class Layer {
-    
+
     public Layer(Map m) {
         this.m = m;
         this.objects = new ArrayList<>();
         this.fx = new ArrayList<>();
         this.backdrop = null;
     }
-    
+
     public Layer(Layer l) {
         this.m = l.m;
         this.objects = new ArrayList<>();
@@ -27,7 +27,7 @@ public class Layer {
             fx.add((Entity) e.clone());
         }
     }
-    
+
     public void render() {
         if (backdrop != null) {
             backdrop.render();
@@ -39,17 +39,22 @@ public class Layer {
             e.render();
         }
     }
-    
+
     @Override
     public Object clone() {
         return new Layer(this);
     }
-    
+
+    public static class LayerComparator implements Comparator<Layer> {
+
+        @Override
+        public int compare(Layer o1, Layer o2) {
+            return o1.z - o2.z;
+        }
+    }
     public Map m;
-    
     public Entity backdrop;
     public ArrayList<Entity> objects;
     public ArrayList<Entity> fx;
     public int z;
-    
 }
