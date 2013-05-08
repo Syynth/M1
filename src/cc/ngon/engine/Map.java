@@ -43,6 +43,7 @@ public class Map {
     
     public Map addLayer(String name, Layer layer) {
         layers.put(name, layer);
+        buildLayerCache();
         return this;
     }
     
@@ -52,8 +53,8 @@ public class Map {
     
     private void buildLayerCache() {
         layerCache = new Layer[layers.size()];
-        Collection c = layers.values();
-        layerCache = (Layer[])c.toArray();
+        Collection<Layer> c = layers.values();
+        layerCache = c.toArray(layerCache);
         Arrays.sort(layerCache, new Layer.LayerComparator());
     }
 

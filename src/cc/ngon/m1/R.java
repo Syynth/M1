@@ -142,9 +142,13 @@ public final class R extends ResourceTable {
             for (Tileset t : ts) {
                 if (t.inGidRange(gid)) {
                     tileset = t;
+                    break;
                 }
             }
             if (tileset != null) {
+                Tile tile = new Tile(m, tileset.getTilePosFromGid(gid),
+                        tileset.getTileSize(), tileset);
+                L.p(tile);
                 return new Tile(m, tileset.getTilePosFromGid(gid),
                         tileset.getTileSize(), tileset);
             } else {

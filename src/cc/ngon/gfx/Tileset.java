@@ -4,15 +4,18 @@
  */
 package cc.ngon.gfx;
 
+import cc.ngon.io.L;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
 public class Tileset extends Graphic {
 
-    public Tileset(Texture texture, Vector2f size) {
+    public Tileset(Texture texture, Vector2f tilesize) {
         super(texture);
-        gridsize = size;
-        gidrange = new Vector2f(-1, -1);
+        this.tilesize = new Vector2f(tilesize);
+        this.gridsize = new Vector2f((float) Math.ceil(size.x / tilesize.x),
+                (float) Math.ceil(size.y / tilesize.y));
+        this.gidrange = new Vector2f(-1, -1);
     }
 
     public Tileset setGidRange(int firstgid) {
@@ -34,8 +37,7 @@ public class Tileset extends Graphic {
     }
 
     public Vector2f getTileSize() {
-        return new Vector2f(texture.getImageWidth() / gridsize.x,
-                texture.getImageHeight() / gridsize.y);
+        return tilesize;
     }
 
     public Vector2f getUvFromTile(Vector2f tileCoord) {
@@ -62,5 +64,6 @@ public class Tileset extends Graphic {
         super.render(position);
     }
     protected Vector2f gridsize;
+    protected Vector2f tilesize;
     protected Vector2f gidrange;
 }

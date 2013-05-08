@@ -40,8 +40,9 @@ public class Camera {
     }
     
     public Camera applyTransform() {
+        //glClear(GL_COLOR_BUFFER_BIT);
+        glLoadIdentity();
         glTranslatef(position.x, position.y, 0);
-        glClear(GL_COLOR_BUFFER_BIT);
         return this;
     }
     

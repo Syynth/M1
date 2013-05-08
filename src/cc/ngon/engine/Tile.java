@@ -5,6 +5,7 @@
 package cc.ngon.engine;
 
 import cc.ngon.gfx.Tileset;
+import cc.ngon.io.L;
 import org.lwjgl.util.vector.Vector2f;
 
 public class Tile extends Entity {
@@ -24,6 +25,11 @@ public class Tile extends Entity {
     public Object clone() {
         Tile t = (Tile)super.clone();
         return t;
+    }
+    
+    @Override
+    public String toString() {
+        return "[size:" + size + ", position:" + position + "]";
     }
     
     public Vector2f size;
