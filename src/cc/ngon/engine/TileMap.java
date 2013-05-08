@@ -11,8 +11,8 @@ import org.lwjgl.util.vector.Vector2f;
 
 public class TileMap extends Entity {
     
-    public TileMap(Map m, Vector2f position, int width, int height) {
-        super(m, position);
+    public TileMap(Map m, int width, int height) {
+        super(m, new Vector2f());
         this.width = width;
         this.height = height;
         tiles = new Tile[width][height];
