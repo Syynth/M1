@@ -13,8 +13,8 @@ public class Tileset extends Graphic {
     public Tileset(Texture texture, Vector2f tilesize) {
         super(texture);
         this.tilesize = new Vector2f(tilesize);
-        this.gridsize = new Vector2f((float) size.x / tilesize.x,
-                (float) size.y / tilesize.y);
+        this.gridsize = new Vector2f((float) Math.ceil(size.x / tilesize.x),
+                (float) Math.ceil(size.y / tilesize.y));
         this.gidrange = new Vector2f(-1, -1);
     }
 
@@ -58,7 +58,7 @@ public class Tileset extends Graphic {
         v[1] = new Vector2f(size.x, 0);
         v[2] = new Vector2f(size);
         v[3] = new Vector2f(0, size.y);
-        t[0] = new Vector2f(c.x / gridsize.x, c.y / gridsize.y);
+        t[0] = new Vector2f((c.x) / gridsize.x, c.y / gridsize.y);
         t[1] = new Vector2f((c.x + 1) / gridsize.x, c.y / gridsize.y);
         t[2] = new Vector2f((c.x + 1) / gridsize.x, (c.y + 1) / gridsize.y);
         t[3] = new Vector2f(c.x / gridsize.x, (c.y + 1) / gridsize.y);
