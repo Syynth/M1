@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="tileset0" tilewidth="32" tileheight="32">
-  <image source="../tex/tileset0.png" width="580" height="740"/>
+  <image source="../tex/tileset/tileset0.png" width="580" height="740"/>
  </tileset>
- <layer name="background" width="20" height="15">
+ <layer name="background_tiles" width="20" height="15">
   <data>
    <tile gid="1"/>
    <tile gid="1"/>
@@ -307,7 +307,7 @@
    <tile gid="1"/>
   </data>
  </layer>
- <layer name="midground" width="20" height="15">
+ <layer name="midground_tiles" width="20" height="15">
   <data>
    <tile gid="2"/>
    <tile gid="2"/>

@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  *
@@ -31,12 +33,25 @@ public class Resource<R> {
     public R get(String key) {
         return map.get(key);
     }
+    
+    @Override
+    public String toString() {
+        String output = "[";
+        for (Entry<String, R> e : map.entrySet()) {
+            output += e.toString() + ", ";
+        }
+        return output + "]";
+    }
 
     public abstract static class Loader<T> {
 
+        public Loader(ResourceTable rt) {
+            this.rt = rt;
+        }
+
         public abstract T load(File f) throws Exception;
+        protected ResourceTable rt;
     }
-    
     protected Loader loader;
     protected HashMap<String, R> map;
 }

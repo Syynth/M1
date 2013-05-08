@@ -20,6 +20,7 @@ public class Map {
         this.width = width;
         this.height = height;
         layerCache = new Layer[0];
+        layers = new HashMap<>();
     }
     
     public Map initialize() {
