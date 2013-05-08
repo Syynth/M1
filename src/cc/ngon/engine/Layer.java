@@ -49,7 +49,7 @@ public class Layer {
 
         @Override
         public int compare(Layer o1, Layer o2) {
-            return o1.z - o2.z;
+            return o2.z - o1.z;
         }
     }
     public Map m;

@@ -98,7 +98,7 @@ public final class R extends ResourceTable {
 
             Map m = new Map(w, h);
             m.addLayer("background", new Layer(m));
-            m.addLayer("midground", new Layer(m));
+            m.addLayer("midground", new Layer(m));            
 
             for (Iterator i = d.getRootElement().elementIterator("layer"); i.hasNext();) {
                 Node layer = (Node) i.next();
@@ -108,7 +108,8 @@ public final class R extends ResourceTable {
                 TileMap tm = new TileMap(m, w, h);
                 for (Iterator j = ((Element) data).elementIterator("tile"); j.hasNext();) {
                     Element tile = (Element) j.next();
-                    tm.tiles[k % w][(int) Math.floor(k / w)] = getTileFromGid(d, m, Integer.parseInt(tile.attributeValue("gid")));
+                    int x = k % w, y = (int) Math.floor(k / w);
+                    tm.tiles[k % w][(int) Math.floor(k / w)] = getTileFromGid(d, m, x, y, Integer.parseInt(tile.attributeValue("gid")));
                     k++;
                 }
                 switch (((Element) layer).attributeValue("name")) {
@@ -124,21 +125,19 @@ public final class R extends ResourceTable {
             return m;
         }
 
-        private Tile getTileFromGid(Document d, Map m, int gid) {
+        private Tile getTileFromGid(Document d, Map m, int x, int y, int gid) {
             if (gid == 0) {
                 return null;
             }
             Tileset tileset = null;
             List tilesets = d.selectNodes("//map/tileset");
             ArrayList<Tileset> ts = new ArrayList<>();
-            // get tileset name, then get tileset, then firstgid, then set gid
             for (Iterator it = tilesets.iterator(); it.hasNext();) {
                 Node n = (Node) it.next();
                 String name = ((Element) n.selectSingleNode("image")).attributeValue("source");
                 name = name.substring(name.lastIndexOf("/") + 1).replaceAll(".png", "");
                 ts.add(((Tileset) rt.get("tilesets").get(name)).setGidRange(Integer.parseInt(((Element) n).attributeValue("firstgid"))));
             }
-            // find appropriate tileset to put in 
             for (Tileset t : ts) {
                 if (t.inGidRange(gid)) {
                     tileset = t;
@@ -146,11 +145,11 @@ public final class R extends ResourceTable {
                 }
             }
             if (tileset != null) {
-                Tile tile = new Tile(m, tileset.getTilePosFromGid(gid),
-                        tileset.getTileSize(), tileset);
+                Tile tile = new Tile(m, new Vector2f(x, y),
+                        tileset.getTileSize(), 
+                        tileset.getTilePosFromGid(gid), tileset);
                 L.p(tile);
-                return new Tile(m, tileset.getTilePosFromGid(gid),
-                        tileset.getTileSize(), tileset);
+                return tile;
             } else {
                 return null;
             }

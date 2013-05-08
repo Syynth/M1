@@ -9,6 +9,8 @@ import cc.ngon.gfx.Camera;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.util.vector.Vector2f;
 
 public class Map {
 
@@ -30,13 +32,17 @@ public class Map {
     }
 
     public Map update() {
+        if (Keyboard.isKeyDown(Keyboard.KEY_UP)) { camera.moveBy(new Vector2f(0, -1.3f)); }
+        if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) { camera.moveBy(new Vector2f(0, 1.3f)); }
+        if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) { camera.moveBy(new Vector2f(-1.3f, 0)); }
+        if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) { camera.moveBy(new Vector2f(1.3f, 0)); }
         return this;
     }
 
     public Map render() {
         camera.applyTransform();
-        for (Layer l : layerCache) {
-            l.render();
+        for (int i = layerCache.length - 1; i >= 0; --i) {
+            layerCache[i].render();
         }
         return this;
     }
