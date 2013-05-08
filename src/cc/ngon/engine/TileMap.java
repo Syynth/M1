@@ -22,7 +22,9 @@ public class TileMap extends Entity {
     public void render() {
         for (Tile[] ts : tiles) {
             for (Tile t : ts) {
-                t.render();
+                if (t != null) {
+                    t.render();
+                }
             }
         }
     }

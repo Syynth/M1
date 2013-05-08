@@ -93,7 +93,7 @@ public final class R extends cc.ngon.io.ResourceTable {
                 TileMap tm = new TileMap(m, w, h);
                 for (Iterator j = ((Element) data).elementIterator("tile"); j.hasNext();) {
                     Element tile = (Element)j.next();
-                    tm.tiles[k % w][(int)Math.floor(k / w)] = getTileFromGid(d, Integer.parseInt(tile.attributeValue("gid")));
+                    tm.tiles[k % w][(int)Math.floor(k / w)] = getTileFromGid(d, m, Integer.parseInt(tile.attributeValue("gid")));
                     k++;
                 }
                 switch (((Element) layer).attributeValue("name")) {
@@ -109,9 +109,13 @@ public final class R extends cc.ngon.io.ResourceTable {
             return m;
         }
         
-        private Tile getTileFromGid(Document d, int gid) {
+        private Tile getTileFromGid(Document d, Map m, int gid) {
+            Tileset t = null;
             List tilesets = d.selectNodes("//map/tileset");
-            return null;
+            // get tileset name
+            
+            // get tileset resource & set first gid;
+            return new Tile(m, null, null, t);
         }
     }
 }

@@ -39,12 +39,12 @@ public class Graphic {
         
     }
     
-    public void render(float x, float y) {
+    public void render(Vector2f position) {
         texture.bind();
         glBegin(GL_QUADS);
         for (int i = 0; i < 4; ++i) {
             glTexCoord2f(t[i].x, t[i].y);
-            glVertex2f(v[i].x, v[i].y);
+            glVertex2f(position.x + v[i].x, position.y + v[i].y);
         }
         glEnd();
     }
@@ -68,6 +68,6 @@ public class Graphic {
     protected Texture texture;
     protected Vector2f size;
     
-    public Vector2f[] v;
-    public Vector2f[] t;
+    protected Vector2f[] v;
+    protected Vector2f[] t;
 }
