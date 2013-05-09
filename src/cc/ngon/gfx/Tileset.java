@@ -53,15 +53,19 @@ public class Tileset extends Graphic {
     }
 
     public void renderTile(Vector2f position, Vector2f size, Vector2f tile) {
-        Vector2f c = new Vector2f(tile);
+        Vector2f c = new Vector2f(tile.x * size.x, tile.y * size.y);
         v[0] = new Vector2f();
         v[1] = new Vector2f(size.x, 0);
         v[2] = new Vector2f(size);
         v[3] = new Vector2f(0, size.y);
-        t[0] = new Vector2f((c.x) / gridsize.x, c.y / gridsize.y);
-        t[1] = new Vector2f((c.x + 1) / gridsize.x, c.y / gridsize.y);
-        t[2] = new Vector2f((c.x + 1) / gridsize.x, (c.y + 1) / gridsize.y);
-        t[3] = new Vector2f(c.x / gridsize.x, (c.y + 1) / gridsize.y);
+        t[0] = new Vector2f((c.x) / this.size.x, c.y / this.size.y);
+        t[1] = new Vector2f((c.x + size.x) / this.size.x, c.y / this.size.y);
+        t[2] = new Vector2f((c.x + size.x) / this.size.x, (c.y + size.y) / this.size.y);
+        t[3] = new Vector2f(c.x / this.size.x, (c.y + size.y) / this.size.y);
+        for (int i = 0; i < 4; ++i) {
+            t[i].x *= this.size.x / this.texture.getTextureWidth();
+            t[i].y *= this.size.y / this.texture.getTextureHeight();
+        }
         super.render(position);
     }
     protected Vector2f gridsize;
