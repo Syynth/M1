@@ -4,8 +4,6 @@
  */
 package cc.ngon.gfx;
 
-import cc.ngon.m1.R;
-
 import org.newdawn.slick.opengl.Texture;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -21,17 +19,13 @@ public class Graphic {
     public Graphic(Texture tex) {
         this.texture = tex;
         this.size = new Vector2f(texture.getImageWidth(), texture.getImageHeight());
-        
         v = new Vector2f[4];
         t = new Vector2f[4];
-        
         v[0] = new Vector2f(0, 0);
         v[1] = new Vector2f(size.x, 0);
         v[2] = new Vector2f(size.x, size.y);
         v[3] = new Vector2f(0, size.y);
-        
-        float fx = texture.getImageWidth() / texture.getTextureWidth(),
-            fy = texture.getImageHeight() / texture.getTextureHeight();
+        float fx = texture.getImageWidth() / texture.getTextureWidth(), fy = texture.getImageHeight() / texture.getTextureHeight();
         t[0] = new Vector2f(0, 0);
         t[1] = new Vector2f(fx, 0);
         t[2] = new Vector2f(fx, fy);

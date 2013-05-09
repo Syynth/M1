@@ -4,19 +4,12 @@
  */
 package cc.ngon.m1;
 
-import cc.ngon.engine.Layer;
-import cc.ngon.engine.Map;
-import cc.ngon.engine.Tile;
-import cc.ngon.engine.TileMap;
-import cc.ngon.io.L;
-import cc.ngon.gfx.Tileset;
-import cc.ngon.io.Config;
-import cc.ngon.io.Resource;
-import cc.ngon.io.ResourceTable;
+import cc.ngon.engine.*;
+import cc.ngon.gfx.*;
+import cc.ngon.io.*;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -98,7 +91,7 @@ public final class R extends ResourceTable {
 
             Map m = new Map(w, h);
             m.addLayer("background", new Layer(m));
-            m.addLayer("midground", new Layer(m));            
+            m.addLayer("midground", new Layer(m));
 
             for (Iterator i = d.getRootElement().elementIterator("layer"); i.hasNext();) {
                 Node layer = (Node) i.next();
@@ -122,7 +115,6 @@ public final class R extends ResourceTable {
                         break;
                 }
             }
-
             return m;
         }
 
@@ -146,11 +138,9 @@ public final class R extends ResourceTable {
                 }
             }
             if (tileset != null) {
-                Tile tile = new Tile(m, new Vector2f(x, y),
-                        tileset.getTileSize(), 
+                return new Tile(m, new Vector2f(x, y),
+                        tileset.getTileSize(),
                         tileset.getTilePosFromGid(gid), tileset);
-                //L.p(tile);
-                return tile;
             } else {
                 return null;
             }
