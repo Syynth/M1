@@ -5,6 +5,7 @@
 package cc.ngon.m1;
 
 import cc.ngon.engine.Map;
+import cc.ngon.gfx.Tileset;
 import cc.ngon.io.Config;
 
 import java.util.logging.Level;

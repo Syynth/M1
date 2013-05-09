@@ -13,8 +13,8 @@ public class Tileset extends Graphic {
     public Tileset(Texture texture, Vector2f tilesize) {
         super(texture);
         this.tilesize = new Vector2f(tilesize);
-        this.gridsize = new Vector2f((float) Math.ceil(size.x / tilesize.x),
-                (float) Math.ceil(size.y / tilesize.y));
+        this.gridsize = new Vector2f((float) Math.floor(size.x / tilesize.x),
+                (float) Math.floor(size.y / tilesize.y));
         this.gidrange = new Vector2f(-1, -1);
     }
 
@@ -30,7 +30,7 @@ public class Tileset extends Graphic {
     public Vector2f getTilePosFromGid(int gid) {
         if (inGidRange(gid)) {
             return new Vector2f((gid - gidrange.x) % gridsize.x,
-                    (float) Math.floor((gid - gidrange.x) / gridsize.y));
+                    (float) Math.floor((gid - gidrange.x) / gridsize.x));
         } else {
             return new Vector2f();
         }
@@ -50,22 +50,30 @@ public class Tileset extends Graphic {
 
     @Override
     public void render(Vector2f position) {
+        v[0] = new Vector2f();
+        v[1] = new Vector2f(texture.getImageWidth(), 0);
+        v[2] = new Vector2f(texture.getImageWidth(), texture.getImageHeight());
+        v[3] = new Vector2f(0, texture.getImageHeight());
+        float fx = (float) texture.getImageWidth() / (float) texture.getTextureWidth(),
+            fy = (float) texture.getImageHeight() / (float) texture.getTextureHeight();
+        t[0] = new Vector2f(0, 0);
+        t[1] = new Vector2f(fx, 0);
+        t[2] = new Vector2f(fx, fy);
+        t[3] = new Vector2f(0, fy);
+        super.render(position);
     }
 
     public void renderTile(Vector2f position, Vector2f size, Vector2f tile) {
-        Vector2f c = new Vector2f(tile.x * size.x, tile.y * size.y);
+        Vector2f c = new Vector2f((tile.x) * size.x, tile.y * size.y);
+        Vector2f st = new Vector2f(texture.getTextureWidth(), texture.getTextureHeight());
         v[0] = new Vector2f();
         v[1] = new Vector2f(size.x, 0);
         v[2] = new Vector2f(size);
         v[3] = new Vector2f(0, size.y);
-        t[0] = new Vector2f((c.x) / this.size.x, c.y / this.size.y);
-        t[1] = new Vector2f((c.x + size.x) / this.size.x, c.y / this.size.y);
-        t[2] = new Vector2f((c.x + size.x) / this.size.x, (c.y + size.y) / this.size.y);
-        t[3] = new Vector2f(c.x / this.size.x, (c.y + size.y) / this.size.y);
-        for (int i = 0; i < 4; ++i) {
-            t[i].x *= this.size.x / this.texture.getTextureWidth();
-            t[i].y *= this.size.y / this.texture.getTextureHeight();
-        }
+        t[0] = new Vector2f((c.x)          / st.x,  c.y           / st.y);
+        t[1] = new Vector2f((c.x + size.x) / st.x,  c.y           / st.y);
+        t[2] = new Vector2f((c.x + size.x) / st.x, (c.y + size.y) / st.y);
+        t[3] = new Vector2f((c.x)          / st.x, (c.y + size.y) / st.y);
         super.render(position);
     }
     protected Vector2f gridsize;

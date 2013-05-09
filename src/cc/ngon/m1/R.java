@@ -109,7 +109,8 @@ public final class R extends ResourceTable {
                 for (Iterator j = ((Element) data).elementIterator("tile"); j.hasNext();) {
                     Element tile = (Element) j.next();
                     int x = k % w, y = (int) Math.floor(k / w);
-                    tm.tiles[k % w][(int) Math.floor(k / w)] = getTileFromGid(d, m, x, y, Integer.parseInt(tile.attributeValue("gid")));
+                    int gid = Integer.parseInt(tile.attributeValue("gid"));
+                    tm.tiles[x][y] = getTileFromGid(d, m, x, y, gid);
                     k++;
                 }
                 switch (((Element) layer).attributeValue("name")) {
@@ -148,7 +149,7 @@ public final class R extends ResourceTable {
                 Tile tile = new Tile(m, new Vector2f(x, y),
                         tileset.getTileSize(), 
                         tileset.getTilePosFromGid(gid), tileset);
-                L.p(tile);
+                //L.p(tile);
                 return tile;
             } else {
                 return null;
