@@ -4,30 +4,36 @@
  */
 package cc.ngon.m1;
 
+import cc.ngon.Utils;
 import cc.ngon.engine.Layer;
 import cc.ngon.engine.Map;
 import cc.ngon.engine.Tile;
 import cc.ngon.engine.TileMap;
-import cc.ngon.io.L;
 import cc.ngon.gfx.Tileset;
+import cc.ngon.io.L;
 import cc.ngon.io.Config;
 import cc.ngon.io.Resource;
 import cc.ngon.io.ResourceTable;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.Node;
-import org.dom4j.io.SAXReader;
-import org.lwjgl.util.vector.Vector2f;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public final class R extends ResourceTable {
 
@@ -86,34 +92,34 @@ public final class R extends ResourceTable {
 
         @Override
         public Map load(File f) throws Exception {
-            SAXReader reader = new SAXReader();
-            Document d = reader.read(f.toURI().toURL());
-            Element e = (Element) d.selectSingleNode("//map");
-
-            int w = 0, h = 0, tw = 0, th = 0;
-            w = Integer.parseInt(e.attributeValue("width"));
-            h = Integer.parseInt(e.attributeValue("height"));
-            tw = Integer.parseInt(e.attributeValue("tilewidth"));
-            th = Integer.parseInt(e.attributeValue("tileheight"));
-
+            DocumentBuilderFactory factoruu = DocumentBuilderFactory.newInstance();
+            factoruu.setNamespaceAware(true);
+            Document d = factoruu.newDocumentBuilder().parse(f);
+            
+            Node n = (Node) getXPathExpr("//map").evaluate(d, XPathConstants.NODE);
+            Element e = (Element) n;
+            
+            int w = Utils.i(e.getAttribute("width"));
+            int h = Utils.i(e.getAttribute("height"));
+            int tw = Utils.i(e.getAttribute("tilewidth"));
+            int th = Utils.i(e.getAttribute("tileheight"));
             Map m = new Map(w, h);
+            m.addLayer("midground", new Layer(m));         
             m.addLayer("background", new Layer(m));
-            m.addLayer("midground", new Layer(m));            
+            
+            NodeList layers = d.getElementsByTagName("layer");
+            for (int i = 0; i < layers.getLength(); ++i) {
+                Element data = (Element) ((Element) layers.item(i)).getElementsByTagName("data").item(0);
 
-            for (Iterator i = d.getRootElement().elementIterator("layer"); i.hasNext();) {
-                Node layer = (Node) i.next();
-                Node data = layer.selectSingleNode("data");
-
-                int k = 0;
                 TileMap tm = new TileMap(m, w, h);
-                for (Iterator j = ((Element) data).elementIterator("tile"); j.hasNext();) {
-                    Element tile = (Element) j.next();
+                NodeList tiles = data.getElementsByTagName("tile");
+                for (int k = 0; k < tiles.getLength(); ++k) {
+                    Element tile = (Element) tiles.item(k);
                     int x = k % w, y = (int) Math.floor(k / w);
-                    int gid = Integer.parseInt(tile.attributeValue("gid"));
+                    int gid = Utils.i(tile.getAttribute("gid"));
                     tm.tiles[x][y] = getTileFromGid(d, m, x, y, gid);
-                    k++;
                 }
-                switch (((Element) layer).attributeValue("name")) {
+                switch (((Element) layers.item(i)).getAttribute("name")) {
                     case "background_tiles":
                         m.getLayer("background").backdrop = tm;
                         break;
@@ -125,19 +131,28 @@ public final class R extends ResourceTable {
 
             return m;
         }
+        
+        private XPathExpression getXPathExpr(String xpath) {
+            try {
+                return XPathFactory.newInstance().newXPath().compile(xpath);
+            } catch (XPathExpressionException ex) {
+                L.ex(ex);
+                return null;
+            }
+        }
 
         private Tile getTileFromGid(Document d, Map m, int x, int y, int gid) {
             if (gid == 0) {
                 return null;
             }
             Tileset tileset = null;
-            List tilesets = d.selectNodes("//map/tileset");
+            NodeList tilesets = d.getElementsByTagName("tileset");
             ArrayList<Tileset> ts = new ArrayList<>();
-            for (Iterator it = tilesets.iterator(); it.hasNext();) {
-                Node n = (Node) it.next();
-                String name = ((Element) n.selectSingleNode("image")).attributeValue("source");
+            for (int i = 0; i < tilesets.getLength(); ++i) {
+                Element e = (Element) tilesets.item(i);
+                String name = ((Element) e.getElementsByTagName("image").item(0)).getAttribute("source");
                 name = name.substring(name.lastIndexOf("/") + 1).replaceAll(".png", "");
-                ts.add(((Tileset) rt.get("tilesets").get(name)).setGidRange(Integer.parseInt(((Element) n).attributeValue("firstgid"))));
+                ts.add(((Tileset) rt.get("tilesets").get(name)).setGidRange(Utils.i((e.getAttribute("firstgid")))));
             }
             for (Tileset t : ts) {
                 if (t.inGidRange(gid)) {
