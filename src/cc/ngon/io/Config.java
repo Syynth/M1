@@ -5,13 +5,13 @@ package cc.ngon.io;
  * @author Ben Cochrane
  */
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.net.MalformedURLException;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.io.SAXReader;
+import javax.xml.xpath.*;
+import javax.xml.parsers.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 public final class Config {
 
@@ -21,13 +21,16 @@ public final class Config {
     public static boolean LoadConfig(String config) {
         try {
             configLocation = config;
-            SAXReader reader = new SAXReader();
-            Config.config = reader.read(new File(config).toURI().toURL());
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(true);
+            DocumentBuilder builder;
+            builder = factory.newDocumentBuilder();
+            Config.config = builder.parse(new File(config));
             return true;
-        } catch (MalformedURLException | DocumentException ex) {
-            L.p("Couldn't read from the config file: " + config);
-            return false;
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            L.ex(ex);
         }
+        return false;
     }
 
     public static String getProperty(String name) {
@@ -38,8 +41,16 @@ public final class Config {
         if (Config.config == null) {
             return "";
         } else {
-            return Config.config.selectSingleNode("//propertyGroup[@name='"
-                    + group + "']/property[@name='" + name + "']").getText();
+            XPathFactory xfac = XPathFactory.newInstance();
+            XPathExpression xpr = null;
+            XPath xpath = xfac.newXPath();
+            try {
+                xpr = xpath.compile("//propertyGroup[@name='" + group + "']/property[@name='" + name + "']/text()");
+                return (String) xpr.evaluate(Config.config, XPathConstants.STRING);
+            } catch (XPathExpressionException ex) {
+                L.ex(ex);
+                return null;
+            }
         }
     }
 
@@ -72,18 +83,26 @@ public final class Config {
     }
 
     public static boolean setProperty(String group, String name, String value) {
+        XPathFactory xfac = XPathFactory.newInstance();
+        XPathExpression xpr = null;
+        XPath xpath = xfac.newXPath();
         try {
-            Config.config.selectSingleNode("//propertyGroup[@name='" + group
-                    + "']/property[@name='" + name + "']").setText(value);
-            try (FileWriter output = new FileWriter(Config.configLocation)) {
-                Config.config.write(output);
-            }
-            return true;
-        } catch (IOException ex) {
-            L.p("Couldn't write to the config file: " + config);
+            xpr = xpath.compile("//propertyGroup[@name='" + group + "']/property[@name='" + name + "']/text()");
+            Node n = (Node) xpr.evaluate(Config.config, XPathConstants.NODE);
+            n.setNodeValue(value);
+            return XmlDocumentWriter.write(config);
+        } catch (XPathExpressionException ex) {
+            L.ex(ex);
+            return false;
         }
-        return false;
     }
     private static Document config;
     private static String configLocation;
+    
+    private static class XmlDocumentWriter {
+        public static boolean write(Document doc) {
+            // TODO: Implement this writer.
+            return false;
+        }
+    }
 }

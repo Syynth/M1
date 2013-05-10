@@ -312,7 +312,7 @@
    <tile gid="1"/>
   </data>
  </layer>
- <layer name="midground_tiles" width="20" height="15">
+ <layer name="midground_tiles" width="20" height="15" visible="0">
   <data>
    <tile gid="2"/>
    <tile gid="2"/>
@@ -616,7 +616,5 @@
    <tile gid="2"/>
   </data>
  </layer>
- <objectgroup name="Object Layer 1" width="20" height="15">
-  <object type="Player" x="147" y="403"/>
- </objectgroup>
+ <objectgroup name="Object Layer 1" width="20" height="15" visible="0"/>
 </map>
