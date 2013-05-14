@@ -40,7 +40,6 @@ public class Main {
     public void execute() {
         
         Map m = ((Map) res.get("maps").get("tiledmap0")).initialize();
-        //new Map((Map)res.get("maps").get("tiledmap0")).initialize();
         
         while (!Display.isCloseRequested()) {
             m.update();

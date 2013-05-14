@@ -1,7 +1,3 @@
-/**
- * @date Apr 29, 2013
- * @author Ben Cochrane
- */
 package cc.ngon.m1;
 
 import cc.ngon.engine.*;
@@ -20,11 +16,13 @@ import cc.ngon.io.ResourceTable;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathExpression;
@@ -37,7 +35,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+/**
+ * @date Apr 29, 2013
+ * @author Ben Cochrane
+ */
 public final class R extends ResourceTable {
 
     public R() {
@@ -46,31 +49,45 @@ public final class R extends ResourceTable {
 
     @Override
     public void initializeResources() {
+        /// <editor-fold defaultstate="closed" desc="Old loading code">
         try {
             addResource("textures", new Resource<Texture>(new Resource.Loader<Texture>(this) {
                 @Override
                 public Texture load(File f) throws Exception {
                     return TextureLoader.getTexture(".png", new FileInputStream(f));
                 }
-            })).get("textures").load("res/tex/", ".png");
+            })).get("textures").loadDirectory("res/tex/", ".png");
         } catch (Exception e) {
             L.ex(e);
         }
 
         try {
             addResource("tilesets", new Resource<Tileset>(new TilesetLoader(this)))
-                    .get("tilesets").load("res/tex/tileset/", ".png");
+                    .get("tilesets").loadDirectory("res/tex/ts/", ".png");
         } catch (Exception e) {
+            L.p("Did you change a directory name or move something?");
             L.ex(e);
         }
 
         try {
-            addResource("maps", new Resource<Map>(new MapLoader(this)))
-                    .get("maps").load("res/lev/", ".tmx");
+            addResource("maps", new Resource<Map>(new TiledMapLoader(this)))
+                    .get("maps").loadDirectory("res/lev/", ".tmx");
         } catch (Exception e) {
             L.ex(e);
         }
-        L.p(get("maps"));
+        /// </editor-fold>
+        try {
+            DocumentBuilderFactory fac = DocumentBuilderFactory.newInstance();
+            fac.setNamespaceAware(true);
+            Document d = fac.newDocumentBuilder().parse(new File("res/metronome.xml"));
+            
+            NodeList tilesets = d.getElementsByTagName("tileset");
+            NodeList maps = d.getElementsByTagName("level");
+            
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            L.ex(ex);
+        }
+        
     }
 
     private class TilesetLoader extends Resource.Loader {
@@ -87,9 +104,9 @@ public final class R extends ResourceTable {
         }
     }
 
-    private class MapLoader extends Resource.Loader {
+    private class TiledMapLoader extends Resource.Loader {
 
-        public MapLoader(ResourceTable rt) {
+        public TiledMapLoader(ResourceTable rt) {
             super(rt);
         }
 
@@ -163,9 +180,11 @@ public final class R extends ResourceTable {
                 }
             }
             if (tileset != null) {
-                return new Tile(m, new Vector2f(x, y),
+                return new Tile(m,
+                        new Vector2f(x, y),
                         tileset.getTileSize(),
-                        tileset.getTilePosFromGid(gid), tileset);
+                        tileset.getTilePosFromGid(gid),
+                        tileset);
             } else {
                 return null;
             }

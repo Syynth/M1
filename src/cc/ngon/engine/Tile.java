@@ -5,7 +5,6 @@
 package cc.ngon.engine;
 
 import cc.ngon.gfx.Tileset;
-import cc.ngon.io.L;
 import org.lwjgl.util.vector.Vector2f;
 
 public class Tile extends Entity {

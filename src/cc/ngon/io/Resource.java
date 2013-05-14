@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  *
@@ -18,7 +17,7 @@ public class Resource<R> {
         this.map = new HashMap<>();
     }
 
-    public Resource<R> load(String directory, String extension) throws Exception {
+    public Resource<R> loadDirectory(String directory, String extension) throws Exception {
         File dir = new File(directory);
         ArrayList<File> files = new ArrayList<>();
         files.addAll(Arrays.asList(dir.listFiles()));
@@ -27,6 +26,12 @@ public class Resource<R> {
                 map.put(f.getName().replaceAll(extension, ""), (R) loader.load(f));
             }
         }
+        return this;
+    }
+    
+    public Resource<R> loadFile(String pathToFile, String extension) throws Exception {
+        File f = new File(pathToFile);
+        map.put(f.getName().replaceAll(extension, ""), (R) loader.load(f));
         return this;
     }
 

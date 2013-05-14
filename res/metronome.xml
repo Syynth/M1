@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metronome name="Metronome">
+
+	<tilesets>
+		<tileset tilewidth="32" tileheight="32" src="tex/ts/tileset0.png" />
+	</tilesets>
+
+	<levels>
+		<level src="lev/tiledmap0.tmx"/>
+	</levels>
+
+</metronome>

@@ -18,7 +18,7 @@ public class Graphic {
     
     public Graphic(Texture tex) {
         this.texture = tex;
-        this.size = new Vector2f(texture.getImageWidth(), texture.getImageHeight());
+        Vector2f size = new Vector2f(texture.getImageWidth(), texture.getImageHeight());
         v = new Vector2f[4];
         t = new Vector2f[4];
         v[0] = new Vector2f(0, 0);
@@ -35,6 +35,10 @@ public class Graphic {
     
     public void render(Vector2f position) {
         texture.bind();
+        renderUnbound(position);
+    }
+    
+    public void renderUnbound(Vector2f position) {
         glBegin(GL_QUADS);
         for (int i = 0; i < 4; ++i) {
             glTexCoord2f(t[i].x, t[i].y);
@@ -47,20 +51,7 @@ public class Graphic {
         return texture;
     }
     
-    public Vector2f size() {
-        return size;
-    }
-    
-    public float width() {
-        return size.x;
-    }
-    
-    public float height() {
-        return size.y;
-    }
-    
     protected Texture texture;
-    protected Vector2f size;
     
     protected Vector2f[] v;
     protected Vector2f[] t;
